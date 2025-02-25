@@ -2,6 +2,7 @@ package ge.guka.CarCommerce.cars;
 
 import ge.guka.CarCommerce.cars.model.EngineDTO;
 import ge.guka.CarCommerce.cars.model.EngineRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,14 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/engines")
+@RequiredArgsConstructor
 public class EngineController {
 
     private final EngineService engineService;
-
-    public EngineController(EngineService engineService) {
-        this.engineService = engineService;
-    }
-
 
     @GetMapping
     Page<EngineDTO> getEngines(@RequestParam int page, @RequestParam int pageSize, @RequestParam double capacity){

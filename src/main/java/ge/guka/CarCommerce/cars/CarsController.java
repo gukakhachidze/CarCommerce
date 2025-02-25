@@ -1,19 +1,16 @@
 package ge.guka.CarCommerce.cars;
 
 import ge.guka.CarCommerce.cars.model.CarDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
+@RequiredArgsConstructor
 public class CarsController {
     private final CarsService carsService;
-
-    public CarsController(CarsService carsService) {
-        this.carsService = carsService;
-    }
 
     @GetMapping
     Page<CarDTO> getCars(@RequestParam int page, @RequestParam int pageSize){

@@ -5,20 +5,17 @@ import ge.guka.CarCommerce.cars.model.CarRequest;
 import ge.guka.CarCommerce.cars.model.EngineDTO;
 import ge.guka.CarCommerce.cars.persistence.Car;
 import ge.guka.CarCommerce.cars.persistence.CarRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CarsService {
 
     private final CarRepository carRepository;
     private final EngineService engineService;
-
-    public CarsService(CarRepository carRepository, EngineService engineService) {
-        this.carRepository = carRepository;
-        this.engineService = engineService;
-    }
 
     public Page<CarDTO> getCars(int page, int pageSize) {
         return carRepository.findCars(
@@ -34,7 +31,7 @@ public class CarsService {
         Car car = new Car();
         car.setModel(request.getModel());
         car.setYear(request.getYear());
-        car.setDrivable(request.isDriveable());
+        car.setDriveable(request.isDriveable());
         car.setEngine(engineService.findEngine(request.getEngineId()));
         carRepository.save(car);
     }
@@ -43,7 +40,7 @@ public class CarsService {
         Car car = carRepository.findById(id).get();
         car.setModel(request.getModel());
         car.setYear(request.getYear());
-        car.setDrivable(request.isDriveable());
+        car.setDriveable(request.isDriveable());
         if (car.getEngine().getId() != request.getEngineId()){
             car.setEngine(engineService.findEngine(request.getEngineId()));
         }
@@ -55,7 +52,7 @@ public class CarsService {
     }
 
     private CarDTO mapCar(Car car) {
-        return new CarDTO(car.getId(), car.getModel(), car.getYear(), car.isDrivable(),
+        return new CarDTO(car.getId(), car.getModel(), car.getYear(), car.isDriveable(),
                 new EngineDTO(
                         car.getEngine().getId(),
                         car.getEngine().getHorsePower(),

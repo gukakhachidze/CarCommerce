@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface EngineRepository extends JpaRepository<Engine, Long> {
 
     @Query("SELECT NEW ge.guka.CarCommerce.cars.model.EngineDTO(e.id, e.horsePower, e.capacity)" +
