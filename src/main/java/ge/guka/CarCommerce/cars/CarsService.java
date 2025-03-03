@@ -1,5 +1,6 @@
 package ge.guka.CarCommerce.cars;
 
+import ge.guka.CarCommerce.cars.error.NotFoundException;
 import ge.guka.CarCommerce.cars.model.CarDTO;
 import ge.guka.CarCommerce.cars.model.CarRequest;
 import ge.guka.CarCommerce.cars.model.EngineDTO;
@@ -23,11 +24,11 @@ public class CarsService {
     }
 
     public CarDTO findCar(long id) {
-        Car car = carRepository.findById(id).get();
+        Car car = carRepository.findById(id).orElseThrow(() -> buildNotFoundException(id));
         return mapCar(car);
     }
 
-    public void addCar(CarRequest request) {
+    public void createCar(CarRequest request) {
         Car car = new Car();
         car.setModel(request.getModel());
         car.setYear(request.getYear());
@@ -37,7 +38,7 @@ public class CarsService {
     }
 
     public void updateCar(Long id, CarRequest request) {
-        Car car = carRepository.findById(id).get();
+        Car car = carRepository.findById(id).orElseThrow(() -> buildNotFoundException(id));
         car.setModel(request.getModel());
         car.setYear(request.getYear());
         car.setDriveable(request.isDriveable());
@@ -59,5 +60,9 @@ public class CarsService {
                         car.getEngine().getCapacity()
                 )
         );
+    }
+
+    private NotFoundException buildNotFoundException(Long id){
+        return new NotFoundException("Car with id " + id + " not found");
     }
 }

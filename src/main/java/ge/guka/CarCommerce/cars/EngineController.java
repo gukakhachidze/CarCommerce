@@ -2,6 +2,7 @@ package ge.guka.CarCommerce.cars;
 
 import ge.guka.CarCommerce.cars.model.EngineDTO;
 import ge.guka.CarCommerce.cars.model.EngineRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,13 +27,13 @@ public class EngineController {
     }
 
     @PostMapping
-    ResponseEntity<Void> createEngine(@RequestBody EngineRequest request){
+    ResponseEntity<Void> createEngine(@RequestBody @Valid EngineRequest request){
         engineService.createEngine(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("{id}")
-    EngineDTO updateEngine(@PathVariable Long id, @RequestBody EngineRequest request){
+    EngineDTO updateEngine(@PathVariable Long id, @RequestBody @Valid EngineRequest request){
         return engineService.updateEngine(id,request);
     }
 
