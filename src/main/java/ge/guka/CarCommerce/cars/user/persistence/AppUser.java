@@ -1,4 +1,4 @@
-package ge.guka.CarCommerce.cars.user;
+package ge.guka.CarCommerce.cars.user.persistence;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,12 +23,12 @@ public class AppUser {
     @Column
     private String password;
 
+    // fetch eager - მონაცემები უნდა ჩაიტვირთოს თავიდანვე როცა იუზერი მოგვაქ(და არა მოთხოვნისას როგორც lazy)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-
     private Set<Role> roles = new HashSet<>();
 }

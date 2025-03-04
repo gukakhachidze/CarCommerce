@@ -25,6 +25,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("com.nimbusds:nimbus-jose-jwt:10.0.1")
 	implementation("org.postgresql:postgresql:42.7.4")
 	implementation("org.liquibase:liquibase-core:4.30.0")
 

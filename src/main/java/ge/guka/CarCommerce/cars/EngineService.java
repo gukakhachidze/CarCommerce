@@ -1,5 +1,6 @@
 package ge.guka.CarCommerce.cars;
 
+import ge.guka.CarCommerce.cars.error.NotFoundException;
 import ge.guka.CarCommerce.cars.model.EngineDTO;
 import ge.guka.CarCommerce.cars.model.EngineRequest;
 import ge.guka.CarCommerce.cars.persistence.Engine;
@@ -19,7 +20,9 @@ public class EngineService {
     }
 
     public EngineDTO findEngineRR(Long id){
-        Engine engine = engineRepository.findById(id).get();
+        Engine engine = engineRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Engine with id: " + id + " not found")
+        );
         return mapEngine(engine);
     }
 
