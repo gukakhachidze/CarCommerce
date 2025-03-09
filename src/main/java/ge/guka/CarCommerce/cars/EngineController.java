@@ -22,8 +22,11 @@ public class EngineController {
 
     @GetMapping
     @PreAuthorize(USER_OR_ADMIN)
-    Page<EngineDTO> getEngines(@RequestParam int page, @RequestParam int pageSize, @RequestParam double capacity){
-        return engineService.getEngines(page, pageSize, capacity);
+    Page<EngineDTO> getEngines(@RequestParam int page, @RequestParam int pageSize, @RequestParam(required = false) Double capacity){
+        if (capacity == null){
+            return engineService.getEnginesWithoutCapacity(page, pageSize);
+        }
+        return engineService.getEngines(page,pageSize,capacity);
     }
 
     @GetMapping("{id}")
