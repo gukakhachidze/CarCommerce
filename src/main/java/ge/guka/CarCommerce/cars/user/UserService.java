@@ -19,8 +19,9 @@ public class UserService {
 
     public void createUser(UserRequest request){
         AppUser user = new AppUser();
-        user.setUsername(request.getUserName());
+        user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setBalance(request.getBalance());
         user.setRoles(request.getRoleIds().stream()
                 .map(roleService::getRole)
                 .collect(Collectors.toSet()));

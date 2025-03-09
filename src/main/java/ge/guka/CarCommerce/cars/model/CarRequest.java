@@ -13,6 +13,8 @@ public class CarRequest {
     @Min(1945)
     private int year;
     private boolean driveable;
+    private String imageUrl;
+    private double price;
     @Positive
     private Long engineId;
 }

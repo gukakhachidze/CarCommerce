@@ -14,4 +14,7 @@ public interface EngineRepository extends JpaRepository<Engine, Long> {
             "FROM Engine e WHERE e.capacity = :capacity")
     Page<EngineDTO> findEngines(double capacity, Pageable pageable);
 
+    @Query("SELECT NEW ge.guka.CarCommerce.cars.model.EngineDTO(e.id, e.horsePower, e.capacity) FROM Engine e")
+    Page<EngineDTO> findEnginesWithoutCapacity(Pageable pageable);
+
 }

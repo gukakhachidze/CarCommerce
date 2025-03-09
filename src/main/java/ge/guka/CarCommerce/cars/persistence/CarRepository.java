@@ -12,7 +12,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query(
             "SELECT NEW ge.guka.CarCommerce.cars.model.CarDTO" +
-                    "(c.id, c.model, c.year, c.driveable, " +
+                    "(c.id, c.model, c.year, c.driveable, c.imageUrl, c.priceInCents, " +
                     "new ge.guka.CarCommerce.cars.model.EngineDTO(e.id, e.horsePower, e.capacity))" +
                     " FROM Car c JOIN c.engine e"
     )

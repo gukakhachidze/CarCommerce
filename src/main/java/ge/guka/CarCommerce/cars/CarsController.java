@@ -2,6 +2,7 @@ package ge.guka.CarCommerce.cars;
 
 import ge.guka.CarCommerce.cars.model.CarDTO;
 import ge.guka.CarCommerce.cars.model.CarRequest;
+import ge.guka.CarCommerce.cars.user.persistence.AppUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

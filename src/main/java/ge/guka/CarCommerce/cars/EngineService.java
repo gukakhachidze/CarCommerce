@@ -8,6 +8,7 @@ import ge.guka.CarCommerce.cars.persistence.EngineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,10 @@ public class EngineService {
 
     public Page<EngineDTO> getEngines(int page, int pageSize, double capacity){
         return engineRepository.findEngines(capacity, PageRequest.of(page,pageSize));
+    }
+
+    public Page<EngineDTO> getEnginesWithoutCapacity(int page, int pageSize){
+        return engineRepository.findEnginesWithoutCapacity(PageRequest.of(page,pageSize));
     }
 
     public EngineDTO findEngineRR(Long id){

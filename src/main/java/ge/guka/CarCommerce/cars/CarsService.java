@@ -6,9 +6,13 @@ import ge.guka.CarCommerce.cars.model.CarRequest;
 import ge.guka.CarCommerce.cars.model.EngineDTO;
 import ge.guka.CarCommerce.cars.persistence.Car;
 import ge.guka.CarCommerce.cars.persistence.CarRepository;
+import ge.guka.CarCommerce.cars.user.UserService;
+import ge.guka.CarCommerce.cars.user.persistence.AppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +21,7 @@ public class CarsService {
 
     private final CarRepository carRepository;
     private final EngineService engineService;
+    private final UserService userService;
 
     public Page<CarDTO> getCars(int page, int pageSize) {
         return carRepository.findCars(
@@ -33,6 +38,8 @@ public class CarsService {
         car.setModel(request.getModel());
         car.setYear(request.getYear());
         car.setDriveable(request.isDriveable());
+        car.setImageUrl(request.getImageUrl());
+        car.setPriceInCents(request.getPrice());
         car.setEngine(engineService.findEngine(request.getEngineId()));
         carRepository.save(car);
     }
@@ -42,6 +49,8 @@ public class CarsService {
         car.setModel(request.getModel());
         car.setYear(request.getYear());
         car.setDriveable(request.isDriveable());
+        car.setImageUrl(request.getImageUrl());
+        car.setPriceInCents(request.getPrice());
         if (car.getEngine().getId() != request.getEngineId()){
             car.setEngine(engineService.findEngine(request.getEngineId()));
         }
@@ -53,16 +62,20 @@ public class CarsService {
     }
 
     private CarDTO mapCar(Car car) {
-        return new CarDTO(car.getId(), car.getModel(), car.getYear(), car.isDriveable(),
+        return new CarDTO(car.getId(),car.getModel(),car.getYear(),car.isDriveable(),car.getImageUrl(),car.getPriceInCents(),
                 new EngineDTO(
                         car.getEngine().getId(),
                         car.getEngine().getHorsePower(),
                         car.getEngine().getCapacity()
-                )
-        );
+                ));
     }
 
     private NotFoundException buildNotFoundException(Long id){
         return new NotFoundException("Car with id " + id + " not found");
+    }
+
+    public Car findCarEntity(Long id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found with id: " + id));
     }
 }
