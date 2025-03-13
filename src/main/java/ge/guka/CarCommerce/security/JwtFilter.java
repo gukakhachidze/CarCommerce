@@ -7,24 +7,26 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.awt.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
     @Value("${jwt.secret-key}")
     private String secretKey;
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
 
     @Override
@@ -51,6 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
             Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             if (expirationTime == null || expirationTime.before(new Date())){
                 System.out.println("JWT is expired"); // TODO: Replace with proper logging. =)
+                logger.error("Error during JWT extraction");
                 filterChain.doFilter(request,response);
                 return;
             }
@@ -67,6 +70,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         } catch (Exception exception) {
             System.out.println("Error during jwt extraction"); // TODO: Replace with proper logging.
+            logger.error("Error during jwt extraction", exception);
         }
 
         filterChain.doFilter(request,response);

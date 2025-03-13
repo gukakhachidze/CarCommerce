@@ -2,6 +2,10 @@ package ge.guka.CarCommerce.cars;
 
 import ge.guka.CarCommerce.cars.model.CarDTO;
 import ge.guka.CarCommerce.cars.model.CarRequest;
+import ge.guka.CarCommerce.cars.model.ImageUpdateRequest;
+import ge.guka.CarCommerce.cars.persistence.Car;
+import ge.guka.CarCommerce.cars.user.persistence.AppUser;
+import ge.guka.CarCommerce.s3.service.StorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static ge.guka.CarCommerce.security.AuthorizationConstants.ADMIN;
 import static ge.guka.CarCommerce.security.AuthorizationConstants.USER_OR_ADMIN;
@@ -19,6 +24,7 @@ import static ge.guka.CarCommerce.security.AuthorizationConstants.USER_OR_ADMIN;
 @RequiredArgsConstructor
 public class CarsController {
     private final CarsService carsService;
+    private final StorageService storageService;
 
     @GetMapping
     @PreAuthorize(USER_OR_ADMIN)
@@ -35,7 +41,7 @@ public class CarsController {
 
     @PutMapping("{id}")
     @PreAuthorize(ADMIN)
-    void updateCar(@RequestParam Long id, @RequestBody @Valid CarRequest request){
+    void updateCar(@PathVariable Long id, @RequestBody @Valid CarRequest request){
         carsService.updateCar(id,request);
     }
 
@@ -49,5 +55,27 @@ public class CarsController {
     @PreAuthorize(ADMIN)
     void deleteCar(@PathVariable Long id){
         carsService.deleteCar(id);
+    }
+
+//    @PostMapping("/upload/{carId}")
+//    public ResponseEntity<String> uploadCarImage(@PathVariable Long carId, @RequestParam MultipartFile file){
+//        Car car = carsService.findCarEntity(carId);
+//
+//        //String imgKey = "cars/" + carId + "/" + file.getOriginalFilename();
+//        String imgKey = "cars/" + file.getOriginalFilename();
+//
+//        String imageUrl = storageService.uploadFile(imgKey, file);
+//
+//        car.setImageUrl(imageUrl);
+//        carsService.saveChanges(car);
+//
+//        return ResponseEntity.ok(imageUrl);
+//    }
+
+    @PatchMapping("/image/{carId}")
+    @PreAuthorize(ADMIN)
+    public ResponseEntity<String> getCarImageUrl(@PathVariable Long carId, @RequestBody ImageUpdateRequest request) {
+        carsService.updateImage(carId, request.getImageUrl());
+        return ResponseEntity.ok("updated");
     }
 }

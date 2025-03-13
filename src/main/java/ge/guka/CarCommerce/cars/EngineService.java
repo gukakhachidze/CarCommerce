@@ -19,7 +19,11 @@ public class EngineService {
         return engineRepository.findEngines(capacity, PageRequest.of(page,pageSize));
     }
 
-    public EngineDTO findEngineRR(Long id){
+    public Page<EngineDTO> getEnginesWithoutCapacity(int page, int pageSize){
+        return engineRepository.findEnginesWithoutCapacity(PageRequest.of(page,pageSize));
+    }
+
+    public EngineDTO findEngine(Long id){
         Engine engine = engineRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Engine with id: " + id + " not found")
         );
@@ -35,12 +39,13 @@ public class EngineService {
     }
 
     public EngineDTO updateEngine(Long id, EngineRequest request){
-       Engine updateToEngine = engineRepository.findById(id).get();
-       updateToEngine.setHorsePower(request.getHorsePower());
-       updateToEngine.setCapacity(request.getCapacity());
+       Engine engineToUpdate = engineRepository.findById(id)
+               .orElseThrow(() -> new NotFoundException("Engine with " + id + " not found"));
+       engineToUpdate.setHorsePower(request.getHorsePower());
+       engineToUpdate.setCapacity(request.getCapacity());
 
-       engineRepository.save(updateToEngine);
-       return mapEngine(updateToEngine);
+       engineRepository.save(engineToUpdate);
+       return mapEngine(engineToUpdate);
     }
 
     public void deleteEngine(Long id){
@@ -55,7 +60,8 @@ public class EngineService {
         );
     }
 
-    public Engine findEngine(Long id){
-        return engineRepository.findById(id).get();
+    public Engine findEngineById(Long id){
+        return engineRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Engine with " + id + " not found"));
     }
 }

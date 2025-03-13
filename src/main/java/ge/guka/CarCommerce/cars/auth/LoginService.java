@@ -41,7 +41,7 @@ public class LoginService {
                     .subject(user.getUsername())
                     .claim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                     .issuer("gukasauto.ge")
-                    .expirationTime(new Date(System.currentTimeMillis() + 3600 * 1000))
+                    .expirationTime(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
                     .build();
 
             JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);

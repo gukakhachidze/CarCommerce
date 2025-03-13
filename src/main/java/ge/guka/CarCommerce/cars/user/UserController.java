@@ -20,6 +20,7 @@ public class UserController {
 
     @PostMapping
     public void createUser(@RequestBody @Valid UserRequest request){
+        System.out.println("Received JSON: " + request);
         userService.createUser(request);
     }
 }

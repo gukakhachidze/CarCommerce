@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EngineRequest {
-    @Positive
+    @Positive(message = "ცხენის ძალა უნდა იყოს მხოლოდ დადებითი ციფრი")
     private int horsePower;
-    @Positive
+    @Positive(message = "მხოლოდ დადებითი ციფრი")
     private double capacity;
 
 }

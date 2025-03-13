@@ -10,6 +10,8 @@ public class CarDTO {
     private String model;
     private int year;
     private boolean driveable;
+    private String imageUrl;
+    private double priceInCents;
     private EngineDTO engine;
 
 }

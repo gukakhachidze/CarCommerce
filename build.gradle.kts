@@ -30,6 +30,9 @@ dependencies {
 	implementation("org.postgresql:postgresql:42.7.4")
 	implementation("org.liquibase:liquibase-core:4.30.0")
 
+	implementation("software.amazon.awssdk:s3:2.25.15")
+	implementation("software.amazon.awssdk:auth:2.25.15")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

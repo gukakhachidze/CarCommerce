@@ -32,4 +32,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorDTO("invalid-login", exception.getMessage()));
     }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ErrorDTO> handleInsufficientBalance(InsufficientBalanceException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorDTO("insufficient-balance", exception.getMessage()));
+    }
+
+    @ExceptionHandler(CarOwnershipException.class)
+    public ResponseEntity<ErrorDTO> handleInsufficientBalance(CarOwnershipException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorDTO("car-ownership", exception.getMessage()));
+    }
 }
